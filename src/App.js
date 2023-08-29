@@ -1,10 +1,13 @@
-import Header from './features/Header/Header';
+import React from 'react';
+import Header from './features/Header/Header.jsx';
 import Home from './features/Home/Home';
 import Subreddits from './features/Subreddits/Subreddits';
+// We will use these imports later
+// import { RouterProvider, Route, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 
 function App() {
     return (
-        <div>
+        <>
             <Header/>
             <main>
                 <Home/>
@@ -20,7 +23,7 @@ function App() {
             <aside>
                 <Subreddits/>
             </aside>
-        </div>
+        </>
     );
 };
 
