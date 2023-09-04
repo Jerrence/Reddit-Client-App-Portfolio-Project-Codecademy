@@ -65,11 +65,11 @@ export const {
 
 export default redditSlice.reducer;
 
-export const fetchPosts = () => async (dispatch, getState) => {
+export const fetchPosts = (subreddit) => async (dispatch) => {
     try {
         dispatch(loadPosts());
 
-        const postData = await getSubredditPosts();
+        const postData = await getSubredditPosts(subreddit);
         dispatch(loadPostsFulfilled(postData));
     } catch(error) {
         dispatch(loadPostsRejected());

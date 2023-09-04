@@ -18,18 +18,20 @@ const subRedditSlice = createSlice({
         isLoading: false,
         error: false
     },
-    loadSubreddits: (state, action) => {
-        state.isLoading = true;
-        state.error = false;
-    },
-    loadSubredditsFullfilled: (state, action) => {
-        state.isLoading = false;
-        state.error = false;
-        state.subreddit = action.payload;
-    },
-    loadSubredditsRejected: (state, action) => {
-        state.isLoading = false;
-        state.error = true;
+    reducers: {
+        loadSubreddits: (state, action) => {
+            state.isLoading = true;
+            state.error = false;
+        },
+        loadSubredditsFullfilled: (state, action) => {
+            state.isLoading = false;
+            state.error = false;
+            state.subreddits = action.payload;
+        },
+        loadSubredditsRejected: (state, action) => {
+            state.isLoading = false;
+            state.error = true;
+        }
     }
 });
 
@@ -53,3 +55,4 @@ export const fetchSubreddits = () => async (dispatch, getState) => {
 };
 
 export const selectSubreddits = (state) => state.subredditSlice.subreddits;
+export const selectSubredditsError = (state) => state.subredditSlice.error;
