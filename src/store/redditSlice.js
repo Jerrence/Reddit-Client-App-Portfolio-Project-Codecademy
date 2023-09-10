@@ -116,6 +116,10 @@ export const selectFilteredPosts = (state) => {
     const posts = state.redditSlice.posts;
     const searchTerm = state.redditSlice.searchTerm;
 
+    if (searchTerm === '') {
+        return posts;
+    }
+
     if (searchTerm !== '') {
         return posts.filter((post) =>
             post.title.toLowerCase().includes(searchTerm.toLowerCase())

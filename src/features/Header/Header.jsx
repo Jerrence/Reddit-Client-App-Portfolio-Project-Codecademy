@@ -1,22 +1,27 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { setSearchTerm, selectFilteredPosts } from "../../store/redditSlice";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setSearchTerm, selectSelectedSubreddit } from "../../store/redditSlice";
 import { FaReddit } from "react-icons/fa";
 import { IoSearch } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 import './Header.css';
 
 
 function Header() {
-    let searchTerm = "";
+    const [ savedSearchTerm, setSavedSearchTerm ] = useState('');
+    const selectedSubreddit = useSelector(selectSelectedSubreddit);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     
     const onChangeHandler = (event) => {
-        searchTerm = event.target.value;
+        setSavedSearchTerm(event.target.value);
     }
     
     const onSubmitHandler = () => {
-        dispatch(setSearchTerm(searchTerm.trim()));
-        console.log(searchTerm);
+        dispatch(setSearchTerm(savedSearchTerm.trim()));
+        console.log(savedSearchTerm);
+        const query = savedSearchTerm;
+        navigate(`${selectedSubreddit}/search?=${query}`);
     }
     
     const onKeyDown = (event) => {

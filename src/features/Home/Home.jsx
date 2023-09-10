@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { selectPosts, fetchPosts, fetchComments, selectComments } from '../../store/redditSlice';
+import { selectFilteredPosts,  fetchPosts, fetchComments, selectComments, selectSelectedSubreddit, setSearchTerm } from '../../store/redditSlice';
 import Comment from '../Comment/Comment';
 import { FaRegMessage } from 'react-icons/fa6';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './Home.css';
 
 function Home() {
     const dispatch = useDispatch();
-    const posts = useSelector(selectPosts);
+    const posts = useSelector(selectFilteredPosts);
     const comments = useSelector(selectComments);
+    const selectedSubreddit = useSelector(selectSelectedSubreddit);
     const [id, setId] = useState(null);
+    const navigate = useNavigate();
     const { name } = useParams();
 
     useEffect(() => {
@@ -25,9 +28,8 @@ function Home() {
             dispatch(fetchPosts('/r/' + name));
         }
     }, [name, dispatch]);
-    
+
     const handleComments = (permalink, id) => {
-        console.log(permalink);
         dispatch(fetchComments(permalink));
         setId(id);
     }
@@ -40,13 +42,25 @@ function Home() {
         }
     }
 
-    useEffect(() => {
-        console.log(comments);
-    }, [comments])
+    const handleClick = (event) => {
+        event.preventDefault();
+        dispatch(setSearchTerm(''));
+        navigate(selectedSubreddit);
+    }
+
+    const noResult = () => {
+        return (
+            <div className='no-result-box'>
+                <h1 className='message'>No results</h1>
+                <button onClick={handleClick} className='home-button'>Go Home</button>
+            </div>
+        )
+    }
+
     
     return (
         <div className='home'>
-            {
+            {   posts.length !== 0 ?
                 posts.map(post => {
                     return (
                         <div className='post-box' key={post.id}>
@@ -60,6 +74,10 @@ function Home() {
                         </div>
                     );
                 })
+
+                :
+
+                noResult()
             }
         </div>
     )

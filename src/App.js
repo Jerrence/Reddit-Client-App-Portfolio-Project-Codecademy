@@ -16,6 +16,7 @@ const appRouter = createBrowserRouter(createRoutesFromElements(
         </div>
     }>
         <Route path='/r/:name' element={ <Subreddits/> }/>
+        <Route path='/r/:name/search' element={ <Home/> }/>
     </Route>
 ))
 

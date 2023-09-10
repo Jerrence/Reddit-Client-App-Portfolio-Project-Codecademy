@@ -8,15 +8,14 @@
 
 .home {
     display: flex;
-    justify-content: center;
     align-items: center;
-    flex-direction: column;  
+    flex-direction: column;
+    width: 90%;
 }
 
 .post-box {
     width: 80%;
     display: flex;
-    justify-content: center;
     flex-direction: column;
     border: 2px solid #000;
     border-radius: 20px;
@@ -51,4 +50,28 @@
     font-family: 'Roboto', sans-serif;
     font-size: 17px;
     margin-bottom: 30px;
+}
+
+.no-result-box {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.message {
+    font-family: 'Roboto', sans-serif;
+    font-size: 50px;
+}
+
+.home-button {
+    width: 250px;
+    height: 70px;
+    font-size: 25px;
+}
+
+.home-button:hover {
+    cursor: pointer;
+    background-color: #d4d4d4;
 }
