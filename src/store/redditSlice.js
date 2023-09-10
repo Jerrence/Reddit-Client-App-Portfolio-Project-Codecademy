@@ -25,8 +25,11 @@ const redditSlice = createSlice({
     name: "redditPosts",
     initialState: {
         posts: [],
+        comments: [],
         error: false,
         isLoading: false,
+        commentError: false,
+        commentsIsLoading: false,
         selectedSubreddit: '/r/pics/',
         searchTerm: '',
     },
@@ -49,6 +52,19 @@ const redditSlice = createSlice({
             state.selectedSubreddit = action.payload;
             state.searchTerm = '';
         },
+        loadComments: (state, action) => {
+            state.commentsIsLoading = true;
+            state.commentError = false;
+        },
+        loadCommentsFulfilled: (state, action) => {
+            state.commentsIsLoading = false;
+            state.commentError = false;
+            state.comments = action.payload;
+        },
+        loadCommentsRejected: (state, action) => {
+            state.commentError = true;
+            state.commentsIsLoading = false;
+        },
         setSearchTerm: (state, action) => {
             state.searchTerm = action.payload;
         }
@@ -60,6 +76,9 @@ export const {
     loadPostsFulfilled,
     loadPostsRejected,
     changeSelectedSubreddit,
+    loadComments,
+    loadCommentsFulfilled,
+    loadCommentsRejected,
     setSearchTerm
 } = redditSlice.actions;
 
@@ -77,7 +96,21 @@ export const fetchPosts = (subreddit) => async (dispatch) => {
 };
 
 export const selectPosts = (state) => state.redditSlice.posts;
-export const selectSearchTerm = (state) => state.redditsSlice.searchTerm;
+export const selectSearchTerm = (state) => state.redditSlice.searchTerm;
+export const selectSelectedSubreddit = (state) => state.redditSlice.selectedSubreddit;
+
+export const fetchComments = (subredditLink) => async (dispatch) => {
+    try {
+        dispatch(loadComments());
+
+        const commentData = await getPostComments(subredditLink);
+        dispatch(loadCommentsFulfilled(commentData));
+    } catch(error) {
+        dispatch(loadCommentsRejected());
+    }
+}
+
+export const selectComments = (state) => state.redditSlice.comments;
 
 export const selectFilteredPosts = (state) => {
     const posts = state.redditSlice.posts;

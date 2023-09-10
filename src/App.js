@@ -2,29 +2,25 @@ import React from 'react';
 import Header from './features/Header/Header.jsx';
 import Home from './features/Home/Home';
 import Subreddits from './features/Subreddits/Subreddits';
-// We will use these imports later
-// import { RouterProvider, Route, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
+import { RouterProvider, Route, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
+import './App.css';
 
-function App() {
-    return (
-        <>
+const appRouter = createBrowserRouter(createRoutesFromElements(
+    <Route exact path='/' element={
+        <div>
             <Header/>
             <main>
                 <Home/>
-            </main>
-
-            {
-                /*
-                    The aside tag is related to the main tag in semantic HTML,
-                    and is used as a sidebar toward the right side of the web
-                */
-            }
-
-            <aside>
                 <Subreddits/>
-            </aside>
-        </>
-    );
+            </main>
+        </div>
+    }>
+        <Route path='/r/:name' element={ <Subreddits/> }/>
+    </Route>
+))
+
+function App() {
+    return <RouterProvider router={appRouter}/>
 };
 
 export default App;

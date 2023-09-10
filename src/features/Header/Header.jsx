@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { setSearchTerm } from "../../store/redditSlice";
+import { setSearchTerm, selectFilteredPosts } from "../../store/redditSlice";
 import { FaReddit } from "react-icons/fa";
 import { IoSearch } from "react-icons/io5";
 import './Header.css';
