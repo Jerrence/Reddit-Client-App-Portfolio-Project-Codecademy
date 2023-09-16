@@ -23,7 +23,6 @@ function Home() {
     }, [name, dispatch])
 
     useEffect(() => {
-        console.log(name);
         if (name !== 'pics') {
             dispatch(fetchPosts('/r/' + name));
         }
